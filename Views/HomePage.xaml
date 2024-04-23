@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LibraryManagmentSystem.Views.HomePage"
+             xmlns:viewmodel="clr-namespace:LibraryManagmentSystem.ViewModels"
+             x:DataType="viewmodel:HomePageViewModel"
+             xmlns:models="clr-namespace:LibraryManagmentSystem.Models"
+             Title="{Binding Title}"
+             xmlns:controls="clr-namespace:LibraryManagmentSystem.CustomControls">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding LoadBookFromDatabaseCommand}"></ToolbarItem>
+        <ToolbarItem Text="+ Add Book" Command="{Binding NavigateToAddBookPageCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <StackLayout BackgroundColor="Coral" >
+        <ActivityIndicator IsVisible="{Binding LoadBookFromDatabaseCommand.IsRunning}" Color="Red" IsRunning="{Binding LoadBookFromDatabaseCommand.IsRunning}"  Margin="50,150,50,0"></ActivityIndicator>
+        <Grid RowDefinitions="*" IsVisible="{Binding GridVisibility}">
+            <CollectionView ItemsSource="{Binding Books}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Book">
+                        <Frame BackgroundColor="LightBlue" BorderColor="Transparent" HeightRequest="280" WidthRequest="500">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=NavigateToDetailsCommand}" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                
+                            </Frame.GestureRecognizers>
+
+                            <VerticalStackLayout BackgroundColor="LightBlue" Padding="5,0,0,0" WidthRequest="400" HeightRequest="280" VerticalOptions="Center" >
+                                <controls:CustomImageControl Base64Source="{Binding Image}" WidthRequest="70" HeightRequest="100" Margin="5" HorizontalOptions="Center"/>
+                                <VerticalStackLayout WidthRequest="400" HorizontalOptions="Start">
+                                    <Label FontAttributes="Bold" Text="{Binding Title}"></Label>
+                                    <Label Text="{Binding Author}"></Label>
+                                    <Label Text="{Binding Description}"></Label>
+                                </VerticalStackLayout>
+                                
+                                <StackLayout Margin="0" Orientation="Horizontal" HorizontalOptions="End">
+                                    <Button BackgroundColor="Red" Text="Delete" Margin="10" Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=DeleteBookDataCommand}" CommandParameter="{Binding .}"></Button>
+                                    <Button BackgroundColor="PaleVioletRed" Text="Edit" Margin="10" Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:HomePageViewModel}}, Path=UpdateBookDataCommand}" CommandParameter="{Binding .}"></Button>
+                                </StackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </StackLayout>
+    </ScrollView>
+
+
+</ContentPage>

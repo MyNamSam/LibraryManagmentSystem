@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LibraryManagmentSystem.Views.AddOrUpdateBookPage"
+             xmlns:viewmodel="clr-namespace:LibraryManagmentSystem.ViewModels"
+             x:DataType="viewmodel:AddOrUpdateBookPageViewModel"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:controls="clr-namespace:LibraryManagmentSystem.CustomControls"
+             xmlns:models="clr-namespace:LibraryManagmentSystem.Models"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Home" Command="{Binding NavigateToHomeCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout BackgroundColor="Coral">
+        <CollectionView IsVisible="{Binding ShowErrors}" ItemsSource="{Binding Errors}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Error">
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Property}" FontAttributes="Bold" TextColor="RoyalBlue"></Label>
+                            <Label Text="{Binding Value}" TextColor="RoyalBlue"></Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Margin="10,10,0,0">
+            <inputLayout:SfTextInputLayout WidthRequest="700" Hint="Enter Book Title">
+                <Entry Text="{Binding AddBookModel.Title}" />
+            </inputLayout:SfTextInputLayout>
+            <BoxView></BoxView>
+
+            <inputLayout:SfTextInputLayout WidthRequest="700" Hint="Enter Book Author">
+                <Entry Text="{Binding AddBookModel.Author}" />
+            </inputLayout:SfTextInputLayout>
+            <BoxView></BoxView>
+
+            <inputLayout:SfTextInputLayout WidthRequest="1400" HeightRequest="200" Hint="Enter Book Description">
+                <Entry Text="{Binding AddBookModel.Description}" />
+            </inputLayout:SfTextInputLayout>
+            <BoxView></BoxView>
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <inputLayout:SfTextInputLayout WidthRequest="200">
+                    <Button BackgroundColor="CornflowerBlue" Text="Browse Image" Command="{Binding SelectImageCommand}" HeightRequest="50"></Button>
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout WidthRequest="200" HeightRequest="200">
+                    <Image Source="{Binding ImageSourceFile}" WidthRequest="150" HeightRequest="150"/>
+                </inputLayout:SfTextInputLayout>
+            </HorizontalStackLayout>
+            <BoxView></BoxView>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Margin="400,0,400,0">
+            <Button BackgroundColor="CornflowerBlue" Text="Save Book" Margin="10" Command="{Binding SaveDataCommand}"></Button>
+        </VerticalStackLayout>
+    </StackLayout>
+
+</ContentPage>
